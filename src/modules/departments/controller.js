@@ -1,25 +1,49 @@
-const service = require('./service');
+const {
+    getDepartments,
+    getDepartmentById,
+    getDepartmentByName
+} = require('../departments/service');
 
-const getDepartments = async (req, res) => {
+// Obtener todos los departamentos
+const fetchDepartments = async (req, res) => {
     try {
-        const departments = await service.getDepartments();
-
-        // Caso: No hay departamentos registrados
-        if (departments.length === 0) {
-            return res.status(404).json({ error: 'No departments found.' });
-        }
-
-        // Caso: Departamentos encontrados
-        res.status(200).json(departments);
+        const departments = await getDepartments();
+        res.json(departments);
     } catch (error) {
-        // Caso: Error de conexión a la base de datos
-        if (error.code === 'ECONNREFUSED') {
-            return res.status(503).json({ error: 'Database connection failed. Please try again later.' });
-        }
-
-        // Caso: Error genérico inesperado
-        res.status(500).json({ error: 'An unexpected error occurred.' });
+        res.status(500).json({ error: 'Error fetching departments' });
     }
 };
 
-module.exports = { getDepartments };
+// Obtener un departamento por ID
+const fetchDepartmentById = async (req, res) => {
+    try {
+        const department = await getDepartmentById(req.params.id);
+        if (department) {
+            res.json(department);
+        } else {
+            res.status(404).json({ error: 'Department not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error fetching department by ID' });
+    }
+};
+
+// Buscar departamentos por nombre
+const searchDepartmentByName = async (req, res) => {
+    const { name } = req.query; // Obtener el parámetro ?name=valor
+    try {
+        if (!name) {
+            return res.status(400).json({ error: 'Name parameter is required' });
+        }
+        const departments = await getDepartmentByName(name);
+        res.json(departments);
+    } catch (error) {
+        res.status(500).json({ error: 'Error searching department by name' });
+    }
+};
+
+module.exports = {
+    fetchDepartments,
+    fetchDepartmentById,
+    searchDepartmentByName
+};
