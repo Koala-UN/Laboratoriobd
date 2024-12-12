@@ -3,7 +3,9 @@ const {
     getMunicipalityById,
     getMunicipalityByName,
     getMunicipalitiesByDepartmentId,
-    getMunicipalitiesByDepartmentName
+    getMunicipalitiesByDepartmentName,
+    assignMayor,
+    removeMayor
 } = require('../municipalities/service');
 
 const fetchAllMunicipalities = async (req, res) => {
@@ -63,10 +65,50 @@ const searchMunicipalitiesByDepartmentName = async (req, res) => {
     }
 };
 
+
+// Asignar o actualizar un alcalde en un municipio
+const assignMunicipalityMayor = async (req, res) => {
+    const { id } = req.params; // ID del municipio
+    const { alcaldeId } = req.body; // ID del alcalde
+
+    try {
+        if (!alcaldeId) {
+            return res.status(400).json({ error: 'Mayor ID (alcaldeId) is required' });
+        }
+        const success = await assignMayor(id, alcaldeId);
+        if (success) {
+            res.json({ message: 'Mayor assigned successfully' });
+        } else {
+            res.status(404).json({ error: 'Municipality not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error assigning mayor' });
+    }
+};
+
+// Eliminar el alcalde de un municipio
+const removeMunicipalityMayor = async (req, res) => {
+    const { id } = req.params; // ID del municipio
+
+    try {
+        const success = await removeMayor(id);
+        if (success) {
+            res.json({ message: 'Mayor removed successfully' });
+        } else {
+            res.status(404).json({ error: 'Municipality not found' });
+        }
+    } catch (error) {
+        res.status(500).json({ error: 'Error removing mayor' });
+    }
+};
+
+
 module.exports = {
     fetchAllMunicipalities,
     fetchMunicipalityById,
     searchMunicipalitiesByName,
     fetchMunicipalitiesByDepartmentId,
-    searchMunicipalitiesByDepartmentName
+    searchMunicipalitiesByDepartmentName,
+    assignMunicipalityMayor,
+    removeMunicipalityMayor
 };
