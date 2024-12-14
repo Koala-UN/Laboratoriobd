@@ -7,6 +7,7 @@ const cors = require('cors');
 const people = require('./modules/people/routes');
 
 const houses = require('./modules/houses/routes');
+const people = require('./modules/people/routes');
 const app = express();
 app.use(cors());
 
