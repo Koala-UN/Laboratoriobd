@@ -1,0 +1,86 @@
+-- Obtener todas las personas
+SELECT * FROM persona;
+
+-- Obtener una persona por ID
+SELECT * FROM persona WHERE id = ?;
+
+-- Obtener personas por nombre
+SELECT * FROM persona WHERE nombre = ?;
+
+-- Obtener personas por sexo
+SELECT * FROM persona WHERE sexo = ?;
+
+-- Obtener personas por rango de edad
+SELECT * FROM persona WHERE edad BETWEEN ? AND ?;
+
+-- Obtener personas por vivienda_id
+SELECT * FROM persona WHERE vivienda_id = ?;
+
+-- Obtener personas por responsable_id
+SELECT * FROM persona WHERE responsable_id = ?;
+
+-- Obtener personas con un número de teléfono específico
+SELECT * FROM persona WHERE telefono = ?;
+
+-- Obtener personas ordenadas por nombre
+SELECT * FROM persona ORDER BY nombre;
+
+-- Obtener personas ordenadas por edad
+SELECT * FROM persona ORDER BY edad;
+
+-- Insertar una nueva persona
+INSERT INTO persona (nombre, sexo, edad, telefono, responsable_id, vivienda_id) VALUES (?, ?, ?, ?, ?, ?);
+
+-- Actualizar el nombre de una persona por ID
+UPDATE persona SET nombre = ? WHERE id = ?;
+
+-- Actualizar el sexo de una persona por ID
+UPDATE persona SET sexo = ? WHERE id = ?;
+
+-- Actualizar la edad de una persona por ID
+UPDATE persona SET edad = ? WHERE id = ?;
+
+-- Actualizar el teléfono de una persona por ID
+UPDATE persona SET telefono = ? WHERE id = ?;
+
+-- Actualizar el responsable_id de una persona por ID
+UPDATE persona SET responsable_id = ? WHERE id = ?;
+
+-- Actualizar el vivienda_id de una persona por ID
+UPDATE persona SET vivienda_id = ? WHERE id = ?;
+
+-- Actualizar múltiples campos de una persona por ID
+UPDATE persona SET nombre = ?, sexo = ?, edad = ?, telefono = ?, responsable_id = ?, vivienda_id = ? WHERE id = ?;
+
+-- Eliminar una persona por ID
+DELETE FROM persona WHERE id = ?;
+
+-- Eliminar personas por nombre
+DELETE FROM persona WHERE nombre = ?;
+
+-- Eliminar personas por sexo
+DELETE FROM persona WHERE sexo = ?;
+
+-- Eliminar personas por rango de edad
+DELETE FROM persona WHERE edad BETWEEN ? AND ?;
+
+-- Eliminar personas por vivienda_id
+DELETE FROM persona WHERE vivienda_id = ?;
+
+-- Eliminar personas por responsable_id
+DELETE FROM persona WHERE responsable_id = ?;
+
+-- Contar el número de personas
+SELECT COUNT(*) FROM persona;
+
+-- Contar el número de personas por sexo
+SELECT sexo, COUNT(*) FROM persona GROUP BY sexo;
+
+-- Obtener la edad promedio de las personas
+SELECT AVG(edad) FROM persona;
+
+-- Obtener el número de personas por vivienda_id
+SELECT vivienda_id, COUNT(*) FROM persona GROUP BY vivienda_id;
+
+-- Obtener el número de personas por responsable_id
+SELECT responsable_id, COUNT(*) FROM persona GROUP BY responsable_id;
