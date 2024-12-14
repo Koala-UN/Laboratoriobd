@@ -28,7 +28,7 @@ const {
 const fetchAllPeople = async (req, res) => {
     console.log('Fetching personas');
     try {
-        const personas = await getAllPeople();
+        const personas = await getAllPeople(req.query);
         res.json(personas);
     } catch (error) {
         res.status(500).json({ error: 'Error fetching personas' });
@@ -161,6 +161,7 @@ const updatePerson = async (req, res) => {
 const removePersonById = async (req, res) => {
     try {
         const { id } = req.params;
+        console.log('Deleting person with id:', id);
         const affectedRows = await deletePersonById(id);
         if (affectedRows > 0) {
             res.json({ message: 'Person deleted successfully' });

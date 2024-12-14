@@ -1,10 +1,36 @@
 const pool = require("../../database/connection");
 
+const fs = require('fs');
+const path = require('path');
+
+// Cargar el archivo JSON con las consultas SQL
+const sqlQueries = JSON.parse(fs.readFileSync(path.join(__dirname, 'adv-search.json'), 'utf8'));
+
 // Obtener todas las personas
-async function getAllPeople() {
-  const [rows] = await pool.query("SELECT * FROM persona");
-  return rows;
+async function getAllPeople(query) {
+    let filters = [query.mayor, query.cdh, query.owner];
+    if (filters.every((filter) => filter === undefined)) {
+        const [rows] = await pool.query("SELECT * FROM persona");
+        return rows;
+    }
+
+    let mayor = query.mayor === "true" ? 1 : query.mayor === "false" ? -1 : 0;
+    let cdh = query.cdh === "true" ? 1 : query.cdh === "false" ? -1 : 0;
+    let owner = query.owner === "true" ? 1 : query.owner === "false" ? -1 : 0;
+
+    let filterKey = `${mayor},${cdh},${owner}`;
+    let sql = sqlQueries[filterKey];
+
+    if (!sql) {
+        throw new Error(`No SQL query found for filter key: ${filterKey}`);
+    }
+
+    console.log("Generated SQL:", sql); // Agrega esta línea para depuración
+
+    const [rows] = await pool.query(sql);
+    return rows;
 }
+
 
 // Obtener una persona por ID
 async function getPeopleById(id) {

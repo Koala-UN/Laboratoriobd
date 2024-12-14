@@ -158,6 +158,42 @@ CREATE TABLE IF NOT EXISTS `mydb`.`persona_has_vivienda` (
 ENGINE = InnoDB;
 
 
+ALTER TABLE `mydb`.`persona` 
+DROP FOREIGN KEY `fk_persona_persona1`,
+DROP FOREIGN KEY `fk_persona_vivienda1`;
+ALTER TABLE `mydb`.`persona` 
+ADD CONSTRAINT `fk_persona_persona1`
+  FOREIGN KEY (`responsable_id`)
+  REFERENCES `mydb`.`persona` (`id`)
+  ON DELETE SET NULL,
+ADD CONSTRAINT `fk_persona_vivienda1`
+  FOREIGN KEY (`vivienda_id`)
+  REFERENCES `mydb`.`vivienda` (`id`)
+  ON DELETE SET NULL;
+
+ALTER TABLE `mydb`.`persona_has_vivienda` 
+DROP FOREIGN KEY `fk_persona_has_vivienda_persona1`,
+DROP FOREIGN KEY `fk_persona_has_vivienda_vivienda1`;
+ALTER TABLE `mydb`.`persona_has_vivienda` 
+ADD CONSTRAINT `fk_persona_has_vivienda_persona1`
+  FOREIGN KEY (`persona_id`)
+  REFERENCES `mydb`.`persona` (`id`)
+  ON DELETE CASCADE,
+ADD CONSTRAINT `fk_persona_has_vivienda_vivienda1`
+  FOREIGN KEY (`vivienda_id`)
+  REFERENCES `mydb`.`vivienda` (`id`)
+  ON DELETE CASCADE;
+
+ALTER TABLE `mydb`.`municipio` 
+DROP FOREIGN KEY `fk_municipio_persona1`;
+ALTER TABLE `mydb`.`municipio` 
+ADD CONSTRAINT `fk_municipio_persona1`
+  FOREIGN KEY (`alcalde_id`)
+  REFERENCES `mydb`.`persona` (`id`)
+  ON DELETE SET NULL;
+  
+  
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
