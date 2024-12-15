@@ -3,13 +3,9 @@ const helloRoutes = require('./modules/hello/routes');
 const departments = require('./modules/departments/routes');
 const municipalities = require('./modules/municipalities/routes');
 const zone = require('./modules/zone/routes');
-const cors = require('cors');   
-const people = require('./modules/people/routes');
-
 const houses = require('./modules/houses/routes');
 const people = require('./modules/people/routes');
 const app = express();
-app.use(cors());
 
 
 app.use(express.json());
