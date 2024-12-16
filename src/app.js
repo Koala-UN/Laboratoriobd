@@ -6,7 +6,9 @@ const zone = require('./modules/zone/routes');
 const houses = require('./modules/houses/routes');
 const people = require('./modules/people/routes');
 const app = express();
-
+const cors = require('cors');
+// Habilitar CORS
+app.use(cors());
 
 app.use(express.json());
 

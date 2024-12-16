@@ -10,13 +10,14 @@ Este proyecto utiliza las siguientes dependencias:
 - **`mysql2`**: Cliente para conectarse a la base de datos MySQL.
 - **`dotenv`**: Manejo de variables de entorno.
 - **`nodemon`**: Reinicio automático del servidor en desarrollo.
-
+- **`cors`**: Habilita el acceso desde otros orígenes para peticiones HTTP.
 ---
 
 ## **Instalación**
 
 1. Clona el repositorio, navega a la carpeta del proyecto, instala las dependencias necesarias y configura las variables de entorno:
    ```bash
-   git clone https://github.com/tu-usuario/Laboratoriobd.git
+   git clone https://github.com/Koala-UN/Laboratoriobd.git
    cd Laboratoriobd
-   npm install <dependencias a instalar>
+   - npm install
+   - npm install <dependencias a instalar>
