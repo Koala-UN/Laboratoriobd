@@ -131,10 +131,14 @@ const fetchPeopleOrderedByAge = async (req, res) => {
         res.status(500).json({ error: 'Error fetching personas ordered by age' });
     }
 };
-
 const createPerson = async (req, res) => {
     try {
         const { nombre, sexo, edad, telefono, responsable_id, vivienda_id } = req.body;
+
+        if (!Number.isInteger(Number(edad)) || Number(edad) < 0) {
+            return res.status(400).json({ error: 'Age must be a positive integer' });
+        }
+
         const newPersonId = await insertPerson(nombre, sexo, edad, telefono, responsable_id, vivienda_id);
         res.status(201).json({ id: newPersonId });
     } catch (error) {
@@ -146,6 +150,11 @@ const updatePerson = async (req, res) => {
     try {
         const { id } = req.params;
         const updates = req.body;
+
+        if (updates.edad && (!Number.isInteger(Number(updates.edad)) || Number(updates.edad) < 0)) {
+            return res.status(400).json({ error: 'Age must be a positive integer' });
+        }
+
         const affectedRows = await updatePersonById(id, updates);
         if (affectedRows > 0) {
             res.json({ message: 'Person updated successfully' });
